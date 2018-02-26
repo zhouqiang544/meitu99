@@ -17,24 +17,34 @@ var _data = {
 
 
 // 目标网址
-var url = 'http://www.lesmao.cc/';
+var useUrl = 'http://www.lesmao.cc/';
 
 // 发送请求
 function getImg(req, cb) {
+    var req = req;
     async.waterfall([
         function(cb) {
-            var url = ""; //爬取网址
+            request(useUrl, function(error, response, body) {
+                if (!error && response.statusCode == 200) {
+                    var url = "http://" + response.request.originalHost;
+                    cb(null, url);
+                }
+            })
+
+        },
+        function(url, cb) {
+            var useUrl = ""; //爬取网址
             if (req.url) {
                 if (parseInt(req.pageNum) == 1) {
-                    url = req.url;
+                    useUrl = req.url;
                 } else {
-                    url = req.url.substring(0, 34) + req.pageNum + "-1.html";
+                    useUrl = req.url.substring(0, 34) + req.pageNum + "-1.html";
                 }
             } else {
-                var url = req ? "http://www.lesmao.cc/plugin.php?id=group&page=" + req : "http://www.lesmao.cc";
+                useUrl = req ? url + "/plugin.php?id=group&page=" + req : url;
             }
 
-            cb(null, url)
+            cb(null, useUrl)
         },
         function(url, cb) {
             var linksArr = new Array();
