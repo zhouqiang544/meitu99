@@ -28,5 +28,4 @@ app.get("/details", function(req, res) {
 })
 
 
-
 app.listen(3000)

@@ -5,7 +5,6 @@ var cheerio = require("cheerio");
 var mkdirp = require('mkdirp');
 var async = require('async');
 
-
 //外传数据
 var _data = {
     "status": "", //接口是否成功
